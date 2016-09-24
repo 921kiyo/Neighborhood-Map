@@ -5,7 +5,10 @@ var markers = [];
 function initMap(){
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: 55.953252, lng:-3.188267},
-    zoom: 14
+    zoom: 14,
+    mapTypeControlOptions:{
+      mapTypeIds:["roadmap", "satellite"]
+    }
   });
   var locations = [
   {title:"Calton Hill", location:{lat: 55.9553471, lng:-3.1825288}},
@@ -19,6 +22,12 @@ function initMap(){
   {title:"Palace of Holyroodhouse", location:{lat: 55.9465981, lng:-3.2095417}},
   {title:"Scott Monument", location:{lat: 55.9513812, lng:-3.1986984}},
   ];
+
+  var styles = [
+  {
+
+  }
+  ]
 
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
