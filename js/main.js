@@ -1,6 +1,10 @@
 var map;
 
+// all the markers of the locations will be in this array
 var markers = [];
+
+// Create
+var placeMarkers = [];
 
 function initMap(){
   map = new google.maps.Map(document.getElementById("map"), {
@@ -10,6 +14,15 @@ function initMap(){
       mapTypeIds:["roadmap", "satellite"]
     }
   });
+
+  var searchBox = new google.maps.places.SearchBox(
+    document.getElementById("places-search"));
+  searchBox.setBounds(map.getBounds());
+  // var searchAutocomplete = new google.maps.places.Autocomplete(document.getElementById("XXX"));
+
+  // // Bias the boundaries within the map
+  // searchAutocomplete.bindTo("bounds", map);
+
   var locations = [
   {title:"Calton Hill", location:{lat: 55.9553471, lng:-3.1825288}},
   {title:"Edinburgh Castle", location:{lat: 55.9485947, lng:-3.1999135}},
@@ -31,6 +44,11 @@ function initMap(){
   // var defaultIcon = makeMarkerIcon("0091ff");
   // var highlightedIcon = makeMarkerIcon("FFFF24");
 
+  function hideMarkers(markers){
+    for(var i = 0; i < markers.length; i++){
+      markers[i].setMap(null);
+    }
+  }
   function makeMarkerIcon(markerColor){
     var markerImage = new google.maps.MarkerImage(
       "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|" + markerColor + "|40|_|%E2%80%A2",
@@ -104,7 +122,7 @@ function initMap(){
         }
       }
 
-      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView); 
     }
   }
 
@@ -117,5 +135,103 @@ function initMap(){
     map.fitBounds(bounds);
   }
 
+  function hideListings(){
+    for(var i = 0; i< markers.length; i++){
+      markers[i].setMap(null);
+    }
+  }
+
+  function zoomToArea(){
+    var geocoder = new google.maps.Geocoder();
+    var address = document.getElementById("zoom-to-area-text").value;
+
+    if(address == ""){
+      window.alert("Please enter an area or address.");
+    }else{
+      geocoder.geocode(
+      {
+        address: address,
+        componentRestrictions: {locality: "Edinburgh"}
+      }, function(results, status){
+        if(status == google.maps.GeocoderStatus.OK){
+          map.setCenter(results[0].geometry.location);
+          map.setZoom(17);
+        }else{
+          /// TODO: need to fix here
+          window.alert("Sorry, the location could not be found - Please try a more specific place");
+        }
+      });
+    }
+  }
+
+  function searchBoxPlaces(searchBox){
+    hideMarkers(placeMarkers);
+    var places = searchBox.getPlaces();
+
+    createMarkersForPlaces(places);
+    if(places.length == 0){
+      window.alert("No matching place found");
+    }
+  }
+
+  function textSearchPlaces(){
+    var bounds = map.getBounds();
+    hideMarkers(placeMarkers);
+    var placesService = new google.maps.places.PlacesService(map);
+    placesService.textSearch({
+      query: document.getElementById("places-search").value,
+      bounds: bounds
+    }, function(results, status){
+      if (status === google.maps.places.PlacesServiceStatus.OK){
+        createMarkersForPlaces(results);
+      }
+    });
+  }
+
+  function createMarkersForPlaces(places){
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < places.length; i++){
+      var place = places[i];
+      var icon = {
+        url: place.icon,
+        size: new google.maps.Size(35,35),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Size(15,34),
+        scaledSize: new google.maps.Size(25,25)
+      };
+      var marker = new google.maps.Marker({
+        map: map,
+        icon: icon,
+        title: place.name,
+        position: place.geometry.location,
+        id: place.id
+      });
+
+      // var placeInfoWindow = new google.maps.InfoWindow();
+      // marker.addListener("click", function(){
+      //   if(placeInfoWindow.marker == this){
+      //     console.log("Already exist")
+      //   }else{
+      //     getPlacesDetails(this, placeInfoWindow);
+      //   }
+      // })
+    }
+  }
+
+
+
   document.getElementById("show-listings").addEventListener("click", showListings);
+  document.getElementById("hide-listings").addEventListener("click", hideListings);
+
+  document.getElementById("zoom-to-area").addEventListener("click", function(){
+    zoomToArea();
+  });
+
+  // Fired when the user selects a predicted results from the list
+  searchBox.addListener("places_changed", function(){
+    searchBoxPlaces(this);
+  });
+  // Fired then go button is clicked
+  document.getElementById("go-places").addEventListener("click", textSearchPlaces);
+
 }

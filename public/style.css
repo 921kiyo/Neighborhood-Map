@@ -24,3 +24,12 @@ html,body{
   width:200px;
   height:200px;
 }
+
+#zoom-to-area-text{
+  position:relative;
+  width:70%;
+}
+
+#zoom-to-area{
+  width:24%;
+}

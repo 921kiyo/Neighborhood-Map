@@ -11,13 +11,23 @@
       <h1>Hello</h1>
       <div>
         <input type="button" id="show-listings" value="Show Listings">
+        <input type="button" id="hide-listings" value="Hide Listings">
       </div>
+      <hr>
+      <div>
+        <input type="text" id="zoom-to-area-text" placeholder="Enter your favorite area!">
+        <input type="button" id="zoom-to-area" value="Zoom">
+      </div>
+      <hr>
+      <span class="text">Search</span>
+      <input type="text" id="places-search" placeholder="Ex: Edinburgh Castle">
+      <input type="button" id="go-places" value="Go">
       <div id="map"></div>
     </div>
     
   </div>
 </body>
 <script src="js/lib/knockout-3.4.0.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyAImtcclQ6rQMRITDXSqCxiFSuhJqSWixs&v=3&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyAImtcclQ6rQMRITDXSqCxiFSuhJqSWixs&v=3&callback=initMap"></script>
 <script src="js/main.js"></script>
 </html>
