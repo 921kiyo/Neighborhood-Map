@@ -23,14 +23,24 @@ function initMap(){
   {title:"Scott Monument", location:{lat: 55.9513812, lng:-3.1986984}},
   ];
 
-  var styles = [
-  {
-
-  }
-  ]
+  // var styles = [{}]
 
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
+
+  // var defaultIcon = makeMarkerIcon("0091ff");
+  // var highlightedIcon = makeMarkerIcon("FFFF24");
+
+  function makeMarkerIcon(markerColor){
+    var markerImage = new google.maps.MarkerImage(
+      "http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|" + markerColor + "|40|_|%E2%80%A2",
+      new google.maps.Size(21,34),
+      new google.maps.Point(0,0),
+      new google.maps.Size(10,34),
+      new google.maps.Size(21,34));
+    return markerImage;
+    console.log(markerImage);
+  }
 
   for(var i = 0; i< locations.length; i++){
     var position = locations[i].location;
@@ -38,15 +48,23 @@ function initMap(){
     var marker = new google.maps.Marker({
       position: position,
       title: title,
+      // icon: defaultIcon,
       animation: google.maps.Animation.DROP,
-      id: i
+      id: i // why do I need id??
     });
     markers.push(marker);
     bounds.extend(marker.position); //???
 
     marker.addListener("click", function(){
       populateInfoWindow(this, largeInfowindow);
-    })
+    });
+
+    // marker.addListener("mouseover", function(){
+    //   this.setIcon(highlightedIcon);
+    // })
+    // marker.addListener("mouseout", function(){
+    //   this.setIcon(defaultIcon);
+    // })
   }
 
   function populateInfoWindow(marker, infowindow){
@@ -56,8 +74,37 @@ function initMap(){
       infowindow.open(map, marker);
 
       infowindow.addListener("closeclick", function(){
-        infowindow.setMarker(null)
+        infowindow.setMarker(null);
       });
+      // get panorama image based on the closest location of the marker
+      var streetViewService = new google.maps.StreetViewService();
+      // image within 50m of the markers position
+      var radius = 50;
+
+      function getStreetView(data, status){
+        if(status == google.maps.StreetViewStatus.OK){
+          var nearStreetViewLocation = data.location.latLng;
+          var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
+          infowindow.setContent("<div>" + marker.title + "</div><div id='pano'></div>");
+
+          // setting the view as if you are looking "at" the location here
+          var panoramaOptions = {
+            position: nearStreetViewLocation,
+            pov: {
+              heading: heading,
+              pitch: 30
+            }
+          };
+          // create panorama object and putting it inside the infowindow
+          var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById("pano"), panoramaOptions);
+        }else{
+          infowindow.setContent("<div>" + marker.title + "</div>" + 
+            "<div>No Street View Found</div>" );
+        }
+      }
+
+      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
     }
   }
 
