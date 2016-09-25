@@ -133,6 +133,8 @@ function initMap(){
     }
     map.fitBounds(bounds);
   }
+  // immediately show when open the browser
+  showListings();
 
   function hideListings(){
     for(var i = 0; i< markers.length; i++){
