@@ -19,15 +19,28 @@
         <input type="button" id="zoom-to-area" value="Zoom">
       </div>
       <hr>
-      <span class="text">Search</span>
-      <input type="text" id="places-search" placeholder="Ex: Edinburgh Castle">
-      <input type="button" id="go-places" value="Go">
-      <div id="map"></div>
+      <div>
+        <span class="text">Search</span>
+        <input type="text" id="places-search" placeholder="Ex: Edinburgh Castle">
+        <input type="button" id="go-places" value="Go">
+      </div>
+      <div>
+        <h1 data-bind="text: hello"></h1>
+        <ul data-bind="foreach: placeList">
+        <!-- add click event here -->
+          <li data-bind="text: name"></li>
+        </ul>
+      </div>
+      
+      
     </div>
+    <div id="map"></div>
     
   </div>
 </body>
 <script src="js/lib/knockout-3.4.0.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyAImtcclQ6rQMRITDXSqCxiFSuhJqSWixs&v=3&callback=initMap"></script>
-<script src="js/main.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/viewModel.js"></script>
 </html>

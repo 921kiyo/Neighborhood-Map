@@ -2,7 +2,6 @@ var map;
 
 // all the markers of the locations will be in this array
 var markers = [];
-
 // Create
 var placeMarkers = [];
 
