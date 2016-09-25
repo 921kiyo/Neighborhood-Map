@@ -131,6 +131,10 @@ function initMap(){
       markers[i].setMap(map);
       bounds.extend(markers[i].position);
     }
+
+    // ViewModel.js gets executed after markers have been created
+    ko.applyBindings(new ViewModel());
+
     map.fitBounds(bounds);
   }
   // immediately show when open the browser

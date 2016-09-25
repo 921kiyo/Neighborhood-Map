@@ -1,14 +1,13 @@
 
 var ViewModel = function(){
   var self = this;
-  this.placeList = ko.observableArray([]);
-  console.log(markers);
+  var title = [];
+  console.log(this.placeList);
   for (var i = 0; i<markers.length; i++){
-    self.placeList.push(markers[i].title);
+    title.push({"title": markers[i].title});
     console.log(markers[i].title);
-    
+    console.log(title);
   }
-
+  this.placeList = ko.observableArray(title);
 };
 
-ko.applyBindings(new ViewModel());
