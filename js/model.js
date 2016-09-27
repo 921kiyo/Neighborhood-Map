@@ -23,16 +23,57 @@ function initMap(){
   // searchAutocomplete.bindTo("bounds", map);
 
   var locations = [
-  {title:"Calton Hill", location:{lat: 55.9553471, lng:-3.1825288}},
-  {title:"Edinburgh Castle", location:{lat: 55.9485947, lng:-3.1999135}},
-  {title:"Arthur's Seat", location:{lat: 55.9440833, lng:-3.1618333}},
-  {title:"Scottish National Gallery of Modern Art", location:{lat: 55.95143179999999, lng:-3.2254509}},
-  {title:"National Museum of Scotland", location:{lat: 55.94704, lng:-3.191668}},
-  {title:"Grassmarket", location:{lat: 55.9475383, lng:-3.1984856}},
-  {title:"Scottish National Gallery", location:{lat: 55.9509865, lng:-3.1986358}},
-  {title:"Royal Botanic Garden Edinburgh", location:{lat: 55.9512388, lng:-3.2331183}},
-  {title:"Palace of Holyroodhouse", location:{lat: 55.9465981, lng:-3.2095417}},
-  {title:"Scott Monument", location:{lat: 55.9513812, lng:-3.1986984}},
+  {
+   title:"Calton Hill",
+   location:{lat: 55.9553471, lng:-3.1825288},
+   placeid: "4b058820f964a52047b322e3"
+
+  },
+  {
+   title:"Edinburgh Castle",
+   location:{lat: 55.9485947, lng:-3.1999135},
+   placeid: "4aa37fb3f964a520f64320e3"
+  },
+  {
+    title:"Arthur's Seat",
+    location:{lat: 55.9440833, lng:-3.1618333},
+    placeid: "4b05881ff964a5203eb322e3"
+  },
+  {
+   title:"Scottish National Gallery of Modern Art (Modern One)",
+   location:{lat: 55.950924, lng:-3.22784},
+   placeid: "4b058820f964a5207eb322e3"
+  },
+  {
+   title:"National Museum of Scotland", 
+   location:{lat: 55.94704, lng:-3.191668},
+   placeid: "4b090909f964a520fd1323e3"
+  },
+  {
+   title:"Grassmarket",
+   location:{lat: 55.9475383, lng:-3.1984856},
+   placeid: "4b2bfaedf964a520f1be24e3"
+  },
+  {
+   title:"Scottish National Gallery",
+   location:{lat: 55.9509865, lng:-3.1986358},
+   placeid: "4b058820f964a5207fb322e3"
+  },
+  {
+   title:"Royal Botanic Garden Edinburgh", 
+   location:{lat: 55.9512388, lng:-3.2331183},
+   placeid: "4b05881ff964a52039b322e3"
+  },
+  {
+   title:"Palace of Holyroodhouse", 
+   location:{lat: 55.9465981, lng:-3.2095417},
+   placeid: "4b05881ff964a52037b322e3"
+  },
+  {
+   title:"The Scott Monument", 
+   location:{lat: 55.9513812, lng:-3.1986984},
+   placeid: "4b058820f964a52055b322e3"
+  }
   ];
 
   // var styles = [{}]
@@ -131,10 +172,6 @@ function initMap(){
       markers[i].setMap(map);
       bounds.extend(markers[i].position);
     }
-
-    // ViewModel.js gets executed after markers have been created
-    ko.applyBindings(new ViewModel());
-
     map.fitBounds(bounds);
   }
   // immediately show when open the browser
@@ -204,6 +241,9 @@ function initMap(){
         anchor: new google.maps.Size(15,34),
         scaledSize: new google.maps.Size(25,25)
       };
+      console.log("running")
+      addFourSquareApi(places[i]);
+
       var marker = new google.maps.Marker({
         map: map,
         icon: icon,
@@ -212,16 +252,34 @@ function initMap(){
         id: place.id
       });
 
-      // var placeInfoWindow = new google.maps.InfoWindow();
-      // marker.addListener("click", function(){
-      //   if(placeInfoWindow.marker == this){
-      //     console.log("Already exist")
-      //   }else{
-      //     getPlacesDetails(this, placeInfoWindow);
-      //   }
-      // })
-    }
+      var placeInfoWindow = new google.maps.InfoWindow();
+      marker.addListener("click", function(){
+        if(placeInfoWindow.marker == this){
+          console.log("Already exist")
+        }else{
+          getPlacesDetails(this, placeInfoWindow);
+        }
+      })
+
   }
+
+  // Adding FourSquare Api info to a marker
+      
+  function addFourSquareApi(marker){
+    $.ajax({
+      url: "https://api.foursquare.com/v2/venues/" + marker.placeid + "?client_id=OORBF4RAFGJKSOH5IODZIVOTDJIV0UYFHRUVG4QMGRC2VSDW&client_secret=CG0TQESP2AMWJL1OLUSPPVX4ACESCVJ50SATZVUIPJAJZLW3",
+      dataType:"json",
+      success: function(data){
+        var result = data.response.venue;
+
+        marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
+        marker.rating = result.hasOwnProperty("rating")? result.rating: "";
+        console.log("success");
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
 
 
 
@@ -239,4 +297,9 @@ function initMap(){
   // Fired then go button is clicked
   document.getElementById("go-places").addEventListener("click", textSearchPlaces);
 
+  // ViewModel.js gets executed after markers have been created
+  ko.applyBindings(new ViewModel());
+  }
+  }
 }
+
