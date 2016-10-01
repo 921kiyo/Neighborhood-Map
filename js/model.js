@@ -13,6 +13,7 @@ function initMap(){
       mapTypeIds:["roadmap", "satellite"]
     }
   });
+  console.log("here1");
 
   var searchBox = new google.maps.places.SearchBox(
     document.getElementById("places-search"));
@@ -27,7 +28,6 @@ function initMap(){
    title:"Calton Hill",
    location:{lat: 55.9553471, lng:-3.1825288},
    placeid: "4b058820f964a52047b322e3"
-
   },
   {
    title:"Edinburgh Castle",
@@ -96,8 +96,8 @@ function initMap(){
       new google.maps.Point(0,0),
       new google.maps.Size(10,34),
       new google.maps.Size(21,34));
-    return markerImage;
     console.log(markerImage);
+    return markerImage;
   }
 
   for(var i = 0; i< locations.length; i++){
@@ -241,7 +241,7 @@ function initMap(){
         anchor: new google.maps.Size(15,34),
         scaledSize: new google.maps.Size(25,25)
       };
-      console.log("running")
+      console.log("running");
       addFourSquareApi(places[i]);
 
       var marker = new google.maps.Marker({
@@ -255,12 +255,12 @@ function initMap(){
       var placeInfoWindow = new google.maps.InfoWindow();
       marker.addListener("click", function(){
         if(placeInfoWindow.marker == this){
-          console.log("Already exist")
+          console.log("Already exist");
         }else{
           getPlacesDetails(this, placeInfoWindow);
         }
-      })
-
+      });
+    }
   }
 
   // Adding FourSquare Api info to a marker
@@ -271,7 +271,6 @@ function initMap(){
       dataType:"json",
       success: function(data){
         var result = data.response.venue;
-
         marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
         marker.rating = result.hasOwnProperty("rating")? result.rating: "";
         console.log("success");
@@ -280,8 +279,11 @@ function initMap(){
         console.log(error);
       }
     });
+  }
 
-
+  function addMarkerToFourSquareApi(){
+    
+  }
 
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
@@ -296,10 +298,7 @@ function initMap(){
   });
   // Fired then go button is clicked
   document.getElementById("go-places").addEventListener("click", textSearchPlaces);
-
   // ViewModel.js gets executed after markers have been created
   ko.applyBindings(new ViewModel());
-  }
-  }
 }
 
