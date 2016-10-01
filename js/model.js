@@ -107,16 +107,18 @@ function initMap(){
       position: position,
       title: title,
       // icon: defaultIcon,
+      placeid: locations[i].placeid, // FourSquare Api
       animation: google.maps.Animation.DROP,
       id: i // why do I need id??
     });
     markers.push(marker);
     bounds.extend(marker.position); //???
 
+    addFourSquareApi(marker);
+
     marker.addListener("click", function(){
       populateInfoWindow(this, largeInfowindow);
     });
-
     // marker.addListener("mouseover", function(){
     //   this.setIcon(highlightedIcon);
     // })
@@ -125,44 +127,70 @@ function initMap(){
     // })
   }
 
+  // Adding FourSquare Api info to a marker          
+  function addFourSquareApi(marker){
+    $.ajax({
+      url: "https://api.foursquare.com/v2/venues/" + marker.placeid + "?client_id=OORBF4RAFGJKSOH5IODZIVOTDJIV0UYFHRUVG4QMGRC2VSDW&client_secret=CG0TQESP2AMWJL1OLUSPPVX4ACESCVJ50SATZVUIPJAJZLW3&v=20140806",
+      dataType:"json",
+      success: function(data){
+        console.log("success");
+        var result = data.response.venue;
+        marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
+        marker.rating = result.hasOwnProperty("rating")? result.rating: ""; 
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+  }
+
   function populateInfoWindow(marker, infowindow){
     if(infowindow.marker != marker){
       largeInfowindow.marker = marker;
+      console.log(marker.likes);
       infowindow.setContent("<div>" + marker.title + "</div>");
       infowindow.open(map, marker);
 
       infowindow.addListener("closeclick", function(){
         infowindow.setMarker(null);
       });
+
+
+      // function addMarkerToFourSquareApi(){
+      //   for (var i = 0; i < 10; i++){
+      //   }
+      // }
+
+
       // get panorama image based on the closest location of the marker
-      var streetViewService = new google.maps.StreetViewService();
-      // image within 50m of the markers position
-      var radius = 50;
+    //   var streetViewService = new google.maps.StreetViewService();
+    //   // image within 50m of the markers position
+    //   var radius = 50;
 
-      function getStreetView(data, status){
-        if(status == google.maps.StreetViewStatus.OK){
-          var nearStreetViewLocation = data.location.latLng;
-          var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-          infowindow.setContent("<div>" + marker.title + "</div><div id='pano'></div>");
+    //   function getStreetView(data, status){
+    //     if(status == google.maps.StreetViewStatus.OK){
+    //       var nearStreetViewLocation = data.location.latLng;
+    //       var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
+    //       infowindow.setContent("<div>" + marker.title + "</div><div id='pano'></div>");
 
-          // setting the view as if you are looking "at" the location here
-          var panoramaOptions = {
-            position: nearStreetViewLocation,
-            pov: {
-              heading: heading,
-              pitch: 30
-            }
-          };
-          // create panorama object and putting it inside the infowindow
-          var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById("pano"), panoramaOptions);
-        }else{
-          infowindow.setContent("<div>" + marker.title + "</div>" + 
-            "<div>No Street View Found</div>" );
-        }
-      }
+    //       // setting the view as if you are looking "at" the location here
+    //       var panoramaOptions = {
+    //         position: nearStreetViewLocation,
+    //         pov: {
+    //           heading: heading,
+    //           pitch: 30
+    //         }
+    //       };
+    //       // create panorama object and putting it inside the infowindow
+    //       var panorama = new google.maps.StreetViewPanorama(
+    //         document.getElementById("pano"), panoramaOptions);
+    //     }else{
+    //       infowindow.setContent("<div>" + marker.title + "</div>" + 
+    //         "<div>No Street View Found</div>" );
+    //     }
+    //   }
 
-      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView); 
+    //   streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView); 
     }
   }
 
@@ -241,8 +269,6 @@ function initMap(){
         anchor: new google.maps.Size(15,34),
         scaledSize: new google.maps.Size(25,25)
       };
-      console.log("running");
-      addFourSquareApi(places[i]);
 
       var marker = new google.maps.Marker({
         map: map,
@@ -251,38 +277,16 @@ function initMap(){
         position: place.geometry.location,
         id: place.id
       });
-
+      
       var placeInfoWindow = new google.maps.InfoWindow();
       marker.addListener("click", function(){
         if(placeInfoWindow.marker == this){
           console.log("Already exist");
         }else{
-          getPlacesDetails(this, placeInfoWindow);
+          getPlacesDetails(this, placeInfoWindow); // this is marker
         }
       });
     }
-  }
-
-  // Adding FourSquare Api info to a marker
-      
-  function addFourSquareApi(marker){
-    $.ajax({
-      url: "https://api.foursquare.com/v2/venues/" + marker.placeid + "?client_id=OORBF4RAFGJKSOH5IODZIVOTDJIV0UYFHRUVG4QMGRC2VSDW&client_secret=CG0TQESP2AMWJL1OLUSPPVX4ACESCVJ50SATZVUIPJAJZLW3",
-      dataType:"json",
-      success: function(data){
-        var result = data.response.venue;
-        marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
-        marker.rating = result.hasOwnProperty("rating")? result.rating: "";
-        console.log("success");
-      },
-      error: function(error){
-        console.log(error);
-      }
-    });
-  }
-
-  function addMarkerToFourSquareApi(){
-    
   }
 
   document.getElementById("show-listings").addEventListener("click", showListings);
