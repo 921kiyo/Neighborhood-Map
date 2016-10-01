@@ -81,8 +81,8 @@ function initMap(){
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
 
-  // var defaultIcon = makeMarkerIcon("0091ff");
-  // var highlightedIcon = makeMarkerIcon("FFFF24");
+  var defaultIcon = makeMarkerIcon("0091ff");
+  var highlightedIcon = makeMarkerIcon("FFFF24");
 
   function hideMarkers(markers){
     for(var i = 0; i < markers.length; i++){
@@ -96,7 +96,6 @@ function initMap(){
       new google.maps.Point(0,0),
       new google.maps.Size(10,34),
       new google.maps.Size(21,34));
-    console.log(markerImage);
     return markerImage;
   }
 
@@ -106,11 +105,13 @@ function initMap(){
     var marker = new google.maps.Marker({
       position: position,
       title: title,
-      // icon: defaultIcon,
+      icon: defaultIcon,
       placeid: locations[i].placeid, // FourSquare Api
       animation: google.maps.Animation.DROP,
       id: i // why do I need id??
     });
+    console.log(marker.title)
+    console.log(marker.icon)
     markers.push(marker);
     bounds.extend(marker.position); //???
 
@@ -119,12 +120,14 @@ function initMap(){
     marker.addListener("click", function(){
       populateInfoWindow(this, largeInfowindow);
     });
-    // marker.addListener("mouseover", function(){
-    //   this.setIcon(highlightedIcon);
-    // })
-    // marker.addListener("mouseout", function(){
-    //   this.setIcon(defaultIcon);
-    // })
+    marker.addListener("mouseover", function(){
+      console.log("over")
+      console.log(this.setIcon)
+      this.setIcon(highlightedIcon);
+    })
+    marker.addListener("mouseout", function(){
+      this.setIcon(defaultIcon);
+    })
   }
 
   // Adding FourSquare Api info to a marker          
@@ -157,13 +160,6 @@ function initMap(){
       infowindow.addListener("closeclick", function(){
         infowindow.setMarker(null);
       });
-
-
-      // function addMarkerToFourSquareApi(){
-      //   for (var i = 0; i < 10; i++){
-      //   }
-      // }
-
 
       // get panorama image based on the closest location of the marker
     //   var streetViewService = new google.maps.StreetViewService();
@@ -286,7 +282,7 @@ function initMap(){
         if(placeInfoWindow.marker == this){
           console.log("Already exist");
         }else{
-          getPlacesDetails(this, placeInfoWindow); // this is marker
+          getPlacesDetails(this, placeInfoWindow); // "this" is marker
         }
       });
     }
