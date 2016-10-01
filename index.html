@@ -21,12 +21,13 @@
       <hr>
       <div>
         <span class="text">Search</span>
-        <input type="text" id="places-search" placeholder="Ex: Edinburgh Castle">
-        <input type="button" id="go-places" value="Go">
+        <input type="search" id="places-search" placeholder="Ex: Edinburgh Castle" 
+        data-bind="textInput: query, valueUpdate: 'keyup'">
+        
       </div>
       <div>
-        <ul data-bind="foreach: placeList">
-        <!-- add click event here -->
+        <ul data-bind="foreach: search">
+        
           <li data-bind="text: title"></li>
         </ul>
       </div>

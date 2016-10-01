@@ -3,7 +3,7 @@ var map;
 // all the markers of the locations will be in this array
 var markers = [];
 // Create
-var placeMarkers = [];
+// var placeMarkers = [];
 
 function initMap(){
   map = new google.maps.Map(document.getElementById("map"), {
@@ -297,7 +297,7 @@ function initMap(){
     searchBoxPlaces(this);
   });
   // Fired then go button is clicked
-  document.getElementById("go-places").addEventListener("click", textSearchPlaces);
+  // document.getElementById("go-places").addEventListener("click", textSearchPlaces);
   // ViewModel.js gets executed after markers have been created
   ko.applyBindings(new ViewModel());
 }
