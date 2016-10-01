@@ -13,7 +13,6 @@ function initMap(){
       mapTypeIds:["roadmap", "satellite"]
     }
   });
-  console.log("here1");
 
   var searchBox = new google.maps.places.SearchBox(
     document.getElementById("places-search"));
