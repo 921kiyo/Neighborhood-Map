@@ -135,6 +135,7 @@ function initMap(){
       success: function(data){
         console.log("success");
         var result = data.response.venue;
+        marker.photo = result.hasOwnProperty("bestPhoto")? result.bestPhoto.prefix + "300x300" + result.bestPhoto.suffix: "";
         marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
         marker.rating = result.hasOwnProperty("rating")? result.rating: ""; 
       },
@@ -147,8 +148,10 @@ function initMap(){
   function populateInfoWindow(marker, infowindow){
     if(infowindow.marker != marker){
       largeInfowindow.marker = marker;
-      console.log(marker.likes);
       infowindow.setContent("<div>" + marker.title + "</div>");
+      infowindow.setContent("<div>" + marker.likes + "</div>");
+      infowindow.setContent("<div>" + marker.ratings + "</div>");
+      infowindow.setContent("<img src=" + marker.photo + " />");
       infowindow.open(map, marker);
 
       infowindow.addListener("closeclick", function(){
