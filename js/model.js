@@ -121,9 +121,17 @@ function initMap(){
       success: function(data){
         console.log("success");
         var result = data.response.venue;
-        marker.photo = result.hasOwnProperty("bestPhoto")? result.bestPhoto.prefix + "200x200" + result.bestPhoto.suffix: "";
+        marker.photo = result.hasOwnProperty("bestPhoto")? result.bestPhoto.prefix + "height100" + result.bestPhoto.suffix: "";
         marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
         marker.rating = result.hasOwnProperty("rating")? result.rating: ""; 
+        marker.url = result.hasOwnProperty("url")? result.url: ""; 
+        marker.phone = result.contact.hasOwnProperty("formattedPhone")? result.contact.formattedPhone: ""; 
+        if (result.location.hasOwnProperty("formattedAddress")){
+          marker.address =[];
+          for(var i = 0; i < result.location.formattedAddress.length; i++){
+            marker.address = marker.address + result.location.formattedAddress.shift() + " ";
+          }
+        }
       },
       error: function(error){
         alert("Sorry, something went wrong")
@@ -134,10 +142,12 @@ function initMap(){
   function populateInfoWindow(marker, infowindow){
     if(infowindow.marker != marker){
       largeInfowindow.marker = marker;
-      infowindow.setContent("<div>" + marker.title + "</div>");
-      infowindow.setContent("<div>" + marker.likes + "</div>");
-      infowindow.setContent("<div>" + marker.ratings + "</div>");
-      infowindow.setContent("<img src=" + marker.photo + " />");
+      var contentString = "<div class='infowindow'><h3>" + "<a href=" + marker.url + ">"                  + marker.title + "</a></h3>" + 
+                          "<img src=" + marker.photo + " /><br/>" + 
+                          "<p>Phone: " + marker.phone + "</p>" + 
+                          "<p>Address: " + marker.address + "</p>" + 
+                          "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
+      infowindow.setContent(contentString);
       infowindow.open(map, marker);
 
       infowindow.addListener("closeclick", function(){
@@ -167,9 +177,9 @@ function initMap(){
 
   var navMenu = document.getElementById("nav-menu");
   navMenu.addEventListener("click", function(e){
-    var optionsBox = document.getElementsByClassName("options-box")
-    console.log(optionsBox.drawer)
-    optionsBox.drawer.classList.toggle("open");
+    var optionBox = document.getElementsByClassName("option-box")
+    console.log(optionBox.drawer)
+    optionBox.drawer.classList.toggle("open");
     e.stopPropagation();
   })
 
