@@ -14,5 +14,6 @@ var ViewModel = function(){
       return match;
     });
   })
+
 };
 
