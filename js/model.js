@@ -1,5 +1,4 @@
 var map;
-
 // all the markers of the locations will be in this array
 var markers = [];
 
@@ -11,10 +10,6 @@ function initMap(){
       mapTypeIds:["roadmap", "satellite"]
     }
   });
-
-  var searchBox = new google.maps.places.SearchBox(
-    document.getElementById("places-search"));
-  searchBox.setBounds(map.getBounds());
 
   var locations = [
   {
@@ -68,8 +63,6 @@ function initMap(){
    placeid: "4b058820f964a52055b322e3"
   }
   ];
-
-  // var styles = [{}]
 
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
@@ -169,40 +162,10 @@ function initMap(){
       markers[i].setMap(null);
     }
   }
-
-  function zoomToArea(){
-    var geocoder = new google.maps.Geocoder();
-    var address = document.getElementById("zoom-to-area-text").value;
-
-    if(address == ""){
-      window.alert("Please enter an area or address.");
-    }else{
-      geocoder.geocode(
-      {
-        address: address,
-        componentRestrictions: {locality: "Edinburgh"}
-      }, function(results, status){
-        if(status == google.maps.GeocoderStatus.OK){
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(17);
-        }else{
-          /// TODO: need to fix here
-          window.alert("Sorry, the location could not be found - Please try a more specific place");
-        }
-      });
-    }
-  }
-
+  
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
 
-  // Fired when the user selects a predicted results from the list
-  searchBox.addListener("places_changed", function(){
-    searchBoxPlaces(this);
-  });
-  // Fired then go button is clicked
-  // document.getElementById("go-places").addEventListener("click", textSearchPlaces);
-  // ViewModel.js gets executed after markers have been created
   ko.applyBindings(new ViewModel());
 }
 
