@@ -2,8 +2,6 @@ var map;
 
 // all the markers of the locations will be in this array
 var markers = [];
-// Create
-// var placeMarkers = [];
 
 function initMap(){
   map = new google.maps.Map(document.getElementById("map"), {
@@ -17,10 +15,6 @@ function initMap(){
   var searchBox = new google.maps.places.SearchBox(
     document.getElementById("places-search"));
   searchBox.setBounds(map.getBounds());
-  // var searchAutocomplete = new google.maps.places.Autocomplete(document.getElementById("XXX"));
-
-  // // Bias the boundaries within the map
-  // searchAutocomplete.bindTo("bounds", map);
 
   var locations = [
   {
@@ -139,7 +133,7 @@ function initMap(){
         marker.rating = result.hasOwnProperty("rating")? result.rating: ""; 
       },
       error: function(error){
-        console.log(error);
+        alert("Sorry, something went wrong")
       }
     });
   }
@@ -156,36 +150,6 @@ function initMap(){
       infowindow.addListener("closeclick", function(){
         infowindow.setMarker(null);
       });
-
-      // get panorama image based on the closest location of the marker
-    //   var streetViewService = new google.maps.StreetViewService();
-    //   // image within 50m of the markers position
-    //   var radius = 50;
-
-    //   function getStreetView(data, status){
-    //     if(status == google.maps.StreetViewStatus.OK){
-    //       var nearStreetViewLocation = data.location.latLng;
-    //       var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-    //       infowindow.setContent("<div>" + marker.title + "</div><div id='pano'></div>");
-
-    //       // setting the view as if you are looking "at" the location here
-    //       var panoramaOptions = {
-    //         position: nearStreetViewLocation,
-    //         pov: {
-    //           heading: heading,
-    //           pitch: 30
-    //         }
-    //       };
-    //       // create panorama object and putting it inside the infowindow
-    //       var panorama = new google.maps.StreetViewPanorama(
-    //         document.getElementById("pano"), panoramaOptions);
-    //     }else{
-    //       infowindow.setContent("<div>" + marker.title + "</div>" + 
-    //         "<div>No Street View Found</div>" );
-    //     }
-    //   }
-
-    //   streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView); 
     }
   }
 
@@ -229,67 +193,8 @@ function initMap(){
     }
   }
 
-  function searchBoxPlaces(searchBox){
-    hideMarkers(placeMarkers);
-    var places = searchBox.getPlaces();
-
-    createMarkersForPlaces(places);
-    if(places.length == 0){
-      window.alert("No matching place found");
-    }
-  }
-
-  function textSearchPlaces(){
-    var bounds = map.getBounds();
-    hideMarkers(placeMarkers);
-    var placesService = new google.maps.places.PlacesService(map);
-    placesService.textSearch({
-      query: document.getElementById("places-search").value,
-      bounds: bounds
-    }, function(results, status){
-      if (status === google.maps.places.PlacesServiceStatus.OK){
-        createMarkersForPlaces(results);
-      }
-    });
-  }
-
-  function createMarkersForPlaces(places){
-    var bounds = new google.maps.LatLngBounds();
-    for (var i = 0; i < places.length; i++){
-      var place = places[i];
-      var icon = {
-        url: place.icon,
-        size: new google.maps.Size(35,35),
-        origin: new google.maps.Point(0,0),
-        anchor: new google.maps.Size(15,34),
-        scaledSize: new google.maps.Size(25,25)
-      };
-
-      var marker = new google.maps.Marker({
-        map: map,
-        icon: icon,
-        title: place.name,
-        position: place.geometry.location,
-        id: place.id
-      });
-      
-      var placeInfoWindow = new google.maps.InfoWindow();
-      marker.addListener("click", function(){
-        if(placeInfoWindow.marker == this){
-          console.log("Already exist");
-        }else{
-          getPlacesDetails(this, placeInfoWindow); // "this" is marker
-        }
-      });
-    }
-  }
-
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
-
-  document.getElementById("zoom-to-area").addEventListener("click", function(){
-    zoomToArea();
-  });
 
   // Fired when the user selects a predicted results from the list
   searchBox.addListener("places_changed", function(){

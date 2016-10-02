@@ -27,9 +27,9 @@ html,body{
   width:100%;
 }
 
-#pano{
-  width:200px;
-  height:200px;
+.scroll{
+  height: 100%;
+  overflow: scroll;
 }
 
 #zoom-to-area-text{

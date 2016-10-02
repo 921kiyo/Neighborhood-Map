@@ -15,17 +15,11 @@
       </div>
       <hr>
       <div>
-        <input type="text" id="zoom-to-area-text" placeholder="Enter your favorite area!">
-        <input type="button" id="zoom-to-area" value="Zoom">
-      </div>
-      <hr>
-      <div>
-        <span class="text">Search</span>
+        <span class="text">Filter</span>
         <input type="search" id="places-search" placeholder="Ex: Edinburgh Castle" 
-        data-bind="textInput: query, valueUpdate: 'keyup'">
-        
+        data-bind="textInput: query, valueUpdate: 'keyup'">  
       </div>
-      <div>
+      <div class="scroll">
         <ul data-bind="foreach: search">
         
           <li data-bind="text: title"></li>
