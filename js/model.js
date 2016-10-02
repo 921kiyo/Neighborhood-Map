@@ -162,9 +162,16 @@ function initMap(){
       markers[i].setMap(null);
     }
   }
-
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
+
+  var navMenu = document.getElementById("nav-menu");
+  navMenu.addEventListener("click", function(e){
+    var optionsBox = document.getElementsByClassName("options-box")
+    console.log(optionsBox.drawer)
+    optionsBox.drawer.classList.toggle("open");
+    e.stopPropagation();
+  })
 
   ko.applyBindings(new ViewModel());
 }
