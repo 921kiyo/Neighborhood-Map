@@ -121,7 +121,7 @@ function initMap(){
       success: function(data){
         console.log("success");
         var result = data.response.venue;
-        marker.photo = result.hasOwnProperty("bestPhoto")? result.bestPhoto.prefix + "height100" + result.bestPhoto.suffix: "";
+        marker.photo = result.hasOwnProperty("bestPhoto")? result.bestPhoto.prefix + "200x200" + result.bestPhoto.suffix: "";
         marker.likes = result.hasOwnProperty("likes")? result.likes.summary: "";
         marker.rating = result.hasOwnProperty("rating")? result.rating: ""; 
         marker.url = result.hasOwnProperty("url")? result.url: ""; 
@@ -143,8 +143,8 @@ function initMap(){
     if(infowindow.marker != marker){
       largeInfowindow.marker = marker;
       var contentString = "<div class='infowindow'><h3>" + "<a href=" + marker.url + ">"                  + marker.title + "</a></h3>" + 
-                          "<img src=" + marker.photo + " /><br/>" + 
-                          "<p>Phone: " + marker.phone + "</p>" + 
+                          "<img id='infowindow-image' src=" + marker.photo + " /><br/>"
+                          + "<p>Phone: " + marker.phone + "</p>" +   
                           "<p>Address: " + marker.address + "</p>" + 
                           "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
       infowindow.setContent(contentString);
@@ -175,7 +175,7 @@ function initMap(){
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
 
-  var navMenu = document.getElementById("nav-menu");
+  var navMenu = document.getElementById("menu-button");
   navMenu.addEventListener("click", function(e){
     var optionBox = document.getElementsByClassName("option-box")
     console.log(optionBox.drawer)

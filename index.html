@@ -3,34 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="public/style.css">
   <link rel="stylesheet" media="screen and (min-width:500px)" href="public/over500.css">
-  <link rel="stylesheet" media="screen and (max-width:500px)" href="public/style.css">
+  <link rel="stylesheet" media="screen and (max-width:500px)" href="public/below500.css">
   <title>Document</title>
 </head>
 <body>
   <div class="container">
+  <div class="column1">
     <div class="option-box" id="drawer">
-      <h2>Popular Tourist Places in Edinburgh</h2>
+      <h2 class="title">Popular Places in Edinburgh</h2>
       <div>
-        <input type="button" id="show-listings" value="Show Listings">
-        <input type="button" id="hide-listings" value="Hide Listings">
       </div>
       <hr>
       <div>
-        <span class="text">Filter</span>
+        <i class="fa fa-filter" aria-hidden="true"></i>
         <input type="search" id="places-search" placeholder="Ex: Edinburgh Castle" 
-        data-bind="textInput: query, valueUpdate: 'keyup'">  
+        data-bind="textInput: query, valueUpdate: 'keyup'">
+        <span id='show-listings'><i class="fa fa-plus" aria-hidden="true"></i></span>
+        <span id='hide-listings'><i class="fa fa-times-circle" aria-hidden="true"></i></span>
       </div>
       <div class="scroll">
         <ul data-bind="foreach: search">
-          <li data-bind="text: title"></li>
+          <li class="list-view" data-bind="text: title"></li>
         </ul>
       </div> 
     </div>
-    <button id="nav-menu">button</button>
-    <!-- <nav id="nav-menu">Button</nav> -->
+  </div>
+  <div class="column2">
+    <div id="nav-menu">
+      <span id='menu-button'><i class="fa fa-bars" aria-hidden="true"></i></span>
+    </div>
     <div id="map"></div>
   </div>
+</div>
+    
 </body>
 <script src="js/lib/knockout-3.4.0.js"></script>
 <script src="js/lib/jquery-3.1.1.min.js"></script>
