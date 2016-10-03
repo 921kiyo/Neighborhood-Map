@@ -107,10 +107,10 @@ function initMap(){
     });
     marker.addListener("mouseover", function(){
       this.setIcon(highlightedIcon);
-    })
+    });
     marker.addListener("mouseout", function(){
       this.setIcon(defaultIcon);
-    })
+    });
   }
 
   // Adding FourSquare Api info to a marker          
@@ -134,7 +134,7 @@ function initMap(){
         }
       },
       error: function(error){
-        alert("Sorry, something went wrong")
+        alert("Sorry, something went wrong");
       }
     });
   }
@@ -143,8 +143,8 @@ function initMap(){
     if(infowindow.marker != marker){
       largeInfowindow.marker = marker;
       var contentString = "<div class='infowindow'><h3>" + "<a href=" + marker.url + ">"                  + marker.title + "</a></h3>" + 
-                          "<img id='infowindow-image' src=" + marker.photo + " /><br/>"
-                          + "<p>Phone: " + marker.phone + "</p>" +   
+                          "<img id='infowindow-image' src=" + marker.photo + " /><br/>"+ 
+                          "<p>Phone: " + marker.phone + "</p>" +   
                           "<p>Address: " + marker.address + "</p>" + 
                           "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
       infowindow.setContent(contentString);
@@ -178,17 +178,17 @@ function initMap(){
   // open the list view menu
   var navMenu = document.getElementById("menu-button");
   navMenu.addEventListener("click", function(e){
-    var optionBox = document.getElementsByClassName("option-box")
+    var optionBox = document.getElementsByClassName("option-box");
     optionBox.drawer.classList.toggle("open");
     e.stopPropagation();
-  })
+  });
 
   // close the list view menu
   var map = document.getElementById("map");
   map.addEventListener("click", function(){
-    var optionBox = document.getElementsByClassName("option-box")
+    var optionBox = document.getElementsByClassName("option-box");
         optionBox[0].className = "option-box";
-  })
+  });
   ko.applyBindings(new ViewModel());
 }
 

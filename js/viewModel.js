@@ -10,10 +10,7 @@ var ViewModel = function(){
       var match =  marker.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
       // Simultaneously update markers on the map
       marker.setVisible(match);
-
       return match;
     });
-  })
-
+  });
 };
-
