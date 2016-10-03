@@ -175,14 +175,20 @@ function initMap(){
   document.getElementById("show-listings").addEventListener("click", showListings);
   document.getElementById("hide-listings").addEventListener("click", hideListings);
 
+  // open the list view menu
   var navMenu = document.getElementById("menu-button");
   navMenu.addEventListener("click", function(e){
     var optionBox = document.getElementsByClassName("option-box")
-    console.log(optionBox.drawer)
     optionBox.drawer.classList.toggle("open");
     e.stopPropagation();
   })
 
+  // close the list view menu
+  var map = document.getElementById("map");
+  map.addEventListener("click", function(){
+    var optionBox = document.getElementsByClassName("option-box")
+        optionBox[0].className = "option-box";
+  })
   ko.applyBindings(new ViewModel());
 }
 
