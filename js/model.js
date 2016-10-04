@@ -105,12 +105,12 @@ function initMap(){
     marker.addListener("click", function(){
       populateInfoWindow(this, largeInfowindow);
     });
-    marker.addListener("click", function(){
-      this.setIcon(highlightedIcon);
-    });
-    marker.addListener("mouseout", function(){
-      this.setIcon(defaultIcon);
-    });
+    // marker.addListener("mouseover", function(){
+    //   this.setIcon(highlightedIcon);
+    // });
+    // marker.addListener("mouseout", function(){
+    //   this.setIcon(defaultIcon);
+    // });
   }
 
   // Adding FourSquare Api info to a marker          
@@ -149,8 +149,15 @@ function initMap(){
                           "<p>Address: " + marker.address + "</p>" + 
                           "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
       infowindow.setContent(contentString);
+      // change the color of marker
+      marker.setIcon(highlightedIcon);
+      console.log("run")
+      // open the infowindow
       infowindow.open(map, marker);
 
+      infowindow.addListener("closeclick", function(){
+        marker.setIcon(defaultIcon);
+      });
     }
   }
 
