@@ -22,8 +22,8 @@
         <i class="fa fa-filter" aria-hidden="true"></i>
         <input type="search" id="places-search" placeholder="Ex: Edinburgh Castle" 
         data-bind="textInput: query, valueUpdate: 'keyup'">
-        <span id='show-listings'><i class="fa fa-plus" aria-hidden="true"></i></span>
-        <span id='hide-listings'><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        <span id='show-listings' data-bind="click: showListings"><i class="fa fa-plus" aria-hidden="true"></i></span>
+        <span id='hide-listings' data-bind="click: hideListings"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
       </div>
       <div class="scroll">
         <ul data-bind="foreach: search">

@@ -15,4 +15,13 @@ var ViewModel = function(){
   });
 
   self.errormessage = ko.observable(false);
+
+  self.showListings = function(){
+        showListings();
+  };
+
+  self.hideListings = ko.computed(function(){
+    console.log("hi")
+  })
+
 };
