@@ -94,7 +94,8 @@ function initMap(){
       icon: defaultIcon,
       placeid: locations[i].placeid, // FourSquare Api
       animation: google.maps.Animation.DROP,
-      id: i // why do I need id??
+      id: i, // why do I need id??
+      map: map
     });
     
     markers.push(marker);
@@ -161,22 +162,6 @@ function initMap(){
     }
   }
 
-  function showListings(){
-    var bounds = new google.maps.LatLngBounds();
-    for(var i = 0; i< markers.length; i++){
-      markers[i].setMap(map);
-      bounds.extend(markers[i].position);
-    }
-    map.fitBounds(bounds);
-  }
-  // immediately show when open the browser
-  showListings();
-
-  function hideListings(){
-    for(var i = 0; i< markers.length; i++){
-      markers[i].setMap(null);
-    }
-  }
   // document.getElementById("show-listings").addEventListener("click", showListings);
   // document.getElementById("hide-listings").addEventListener("click", hideListings);
 
@@ -189,11 +174,31 @@ function initMap(){
   });
 
   // close the list view menu
-  var map = document.getElementById("map");
-  map.addEventListener("click", function(){
+  var mapMenu = document.getElementById("map");
+  mapMenu.addEventListener("click", function(){
     var optionBox = document.getElementsByClassName("option-box");
         optionBox[0].className = "option-box";
   });
+
+  // var foo = document.getElementsByClassName("list-view");
+  // foo.addListener("mouseover", function(){
+  //   console.log("some");
+  // }); 
+
   ko.applyBindings(new ViewModel());
 }
 
+function showListings(){
+  var bounds = new google.maps.LatLngBounds();
+  for(var i = 0; i< markers.length; i++){
+    markers[i].setMap(map);
+    bounds.extend(markers[i].position);
+  }
+  map.fitBounds(bounds);
+}
+
+function hideListings(){
+  for(var i = 0; i< markers.length; i++){
+    markers[i].setMap(null);
+  }
+}

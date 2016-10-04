@@ -20,8 +20,18 @@ var ViewModel = function(){
         showListings();
   };
 
-  self.hideListings = ko.computed(function(){
-    console.log("hi")
-  })
+  self.hideListings = function(){
+    hideListings();
+  };
+
+  self.enableHighlight = function(){
+    console.log("enable");
+  };
+  self.disableHighlight = function(){
+    console.log("disable");
+  };
+  self.selectPlace = function(){
+    console.log("click");
+  };
 
 };
