@@ -13,4 +13,6 @@ var ViewModel = function(){
       return match;
     });
   });
+
+  self.errormessage = ko.observable(false);
 };

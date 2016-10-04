@@ -13,6 +13,10 @@
   margin: auto;
 }
 
+#error{
+  color:white;
+  margin-top: 0px;
+}
 
 #show-listings{
   cursor: pointer;

@@ -134,7 +134,8 @@ function initMap(){
         }
       },
       error: function(error){
-        alert("Sorry, something went wrong");
+        var viewModel = new ViewModel();
+        viewModel.errormessage = ko.observable(true);
       }
     });
   }
