@@ -27,7 +27,7 @@
       </div>
       <div class="scroll">
         <ul data-bind="foreach: search">
-          <li class="list-view" data-bind="text: title, mouseover: enableHighlight, mouseout: disableHighlight, click: selectPlace"></li>
+          <li class="list-view" data-bind="text: title, $parent.event: {mouseover: enableHighlight, mouseout: disableHighlight}, click: $parent.selectPlace"></li>
         </ul>
       </div> 
     </div>
