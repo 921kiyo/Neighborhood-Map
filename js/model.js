@@ -162,9 +162,6 @@ function initMap(){
     }
   }
 
-  // document.getElementById("show-listings").addEventListener("click", showListings);
-  // document.getElementById("hide-listings").addEventListener("click", hideListings);
-
   // open the list view menu
   var navMenu = document.getElementById("menu-button");
   navMenu.addEventListener("click", function(e){

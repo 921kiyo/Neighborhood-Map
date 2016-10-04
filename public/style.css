@@ -2,6 +2,9 @@
   width: 100%;
 }
 
+li:hover{
+  background-color: #3f3f3d;
+}
 .option-box{
   font-family: 'Asap', sans-serif;
   background-color: black;

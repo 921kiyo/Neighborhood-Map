@@ -17,7 +17,7 @@ var ViewModel = function(){
   self.errormessage = ko.observable(false);
 
   self.showListings = function(){
-        showListings();
+    showListings();
   };
 
   self.hideListings = function(){
@@ -25,13 +25,13 @@ var ViewModel = function(){
   };
 
   self.enableHighlight = function(){
-    console.log("enable");
+    
   };
   self.disableHighlight = function(){
-    console.log("disable");
+    
   };
   self.selectPlace = function(){
-    console.log("click");
+    populateInfoWindow();
   };
 
 };
