@@ -105,7 +105,7 @@ function initMap(){
     marker.addListener("click", function(){
       populateInfoWindow(this, largeInfowindow);
     });
-    marker.addListener("mouseover", function(){
+    marker.addListener("click", function(){
       this.setIcon(highlightedIcon);
     });
     marker.addListener("mouseout", function(){
@@ -150,9 +150,6 @@ function initMap(){
       infowindow.setContent(contentString);
       infowindow.open(map, marker);
 
-      infowindow.addListener("closeclick", function(){
-        infowindow.setMarker(null);
-      });
     }
   }
 
