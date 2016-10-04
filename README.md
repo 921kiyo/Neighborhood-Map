@@ -8,7 +8,7 @@ Project 4 in Udacity Front-End Nanodegree ([Course Link](https://www.udacity.com
 - To explore how frameworks can decrease the time required developing an application and provide a number of utilities to use. 
 - To implement third-party APIs that provide valuable data sets that can improve the quality of the application
 
-## Main Functionalities
+## Main Functions
 
 - User can explore 10 popular tourist places in Edinburgh on Google Map.
 - User can filter the places by names in the list view menu.
