@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="container">
-  <div class="column1">
+  <aside class="column1">
     <div class="option-box" id="drawer">
       <h2 class="title">Popular Places in Edinburgh</h2>
       <div>
@@ -22,7 +22,7 @@
       <div>
         <i class="fa fa-filter" aria-hidden="true"></i>
         <input type="search" id="places-search" placeholder="Ex: Edinburgh Castle" 
-        data-bind="textInput: query, valueUpdate: 'keyup'">
+        data-bind="textInput: query">
         <span id='show-listings' data-bind="click: showListings"><i class="fa fa-plus" aria-hidden="true"></i></span>
         <span id='hide-listings' data-bind="click: hideListings"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
       </div>
@@ -32,11 +32,10 @@
         </ul>
       </div> 
     </div>
-  </div>
+  </aside>
   <div class="column2">
     <div id="nav-menu">
       <span id='menu-button'><i class="fa fa-bars" aria-hidden="true"></i></span>
-      <!-- <p id="error" data-bind="visible: errormessage">Sorry something went wrong...</p> -->
     </div>
     <div id="map"></div>
   </div>
@@ -45,7 +44,7 @@
 </body>
 <script src="js/lib/knockout-3.4.0.js"></script>
 <script src="js/lib/jquery-3.1.1.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyAImtcclQ6rQMRITDXSqCxiFSuhJqSWixs&v=3&callback=initMap"></script>
-<script src="js/model.js"></script>
 <script src="js/viewModel.js"></script>
+<script src="js/model.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyAImtcclQ6rQMRITDXSqCxiFSuhJqSWixs&v=3&callback=initMap" onerror="googleMapErrorHandler()"></script>
 </html>

@@ -209,3 +209,7 @@ function populateInfoWindow(marker, infowindow){
   }
 }
 
+function googleMapErrorHandler(){
+  alert('Google map did not load correctly. Please try it again')
+}
+
