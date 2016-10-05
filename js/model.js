@@ -187,6 +187,11 @@ function hideListings(){
 }
 
 function populateInfoWindow(marker, infowindow){
+  // Check if marker object has previous marker info. If yes, change the color of the marker
+  if (infowindow.marker){
+    largeInfowindow.marker.setIcon(defaultIcon);
+  }
+  
   if(infowindow.marker != marker){
     largeInfowindow.marker = marker;
     var contentString = '<div class="infowindow"><h3>' + '<a href=' + marker.url + '>'                  + marker.title + '</a></h3>' + 
