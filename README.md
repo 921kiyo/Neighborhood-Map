@@ -1,6 +1,8 @@
 # Neighborhood-Map
 Single-page responsive map application with Knockout.js framework that loads 10 tourist places in Edinburgh.
 
+![Alt text](public/images/image.PNG?raw=true "Optional Title")
+
 Project 4 in Udacity Front-End Nanodegree ([Course Link](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001)). 
 
 ## Project Objectives
