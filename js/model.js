@@ -1,3 +1,7 @@
+(function(){
+  'use strict';
+}());
+
 var map;
 
 var largeInfowindow;
@@ -110,12 +114,6 @@ function initMap(){
     marker.addListener('click', function(){
       populateInfoWindow(this, largeInfowindow);
     });
-    // marker.addListener('mouseover', function(){
-    //   this.setIcon(highlightedIcon);
-    // });
-    // marker.addListener('mouseout', function(){
-    //   this.setIcon(defaultIcon);
-    // });
   }
 
   // Adding FourSquare Api info to a marker          
@@ -141,7 +139,7 @@ function initMap(){
       error: function(error){
         var errorInfowindow = new google.maps.InfoWindow();
         errorInfowindow.marker = marker;
-        errorInfowindow.setContent("<div><p>Sorry something went wrong..</p></div>")
+        errorInfowindow.setContent("<div><p>Sorry something went wrong..</p></div>");
         errorInfowindow.open(map, marker);
       }
     });
@@ -178,7 +176,7 @@ function showListings(){
   }
   window.onresize = function(){
     map.fitBounds(bounds);
-  }
+  };
   
 }
 
@@ -210,6 +208,5 @@ function populateInfoWindow(marker, infowindow){
 }
 
 function googleMapErrorHandler(){
-  alert('Google map did not load correctly. Please try it again')
+  alert('Google map did not load correctly. Please try it again');
 }
-
