@@ -98,7 +98,7 @@ function initMap(){
       icon: defaultIcon,
       placeid: locations[i].placeid, // FourSquare Api
       animation: google.maps.Animation.DROP,
-      id: i, // why do I need id??
+      id: i, 
       map: map
     });
     
@@ -139,8 +139,10 @@ function initMap(){
         }
       },
       error: function(error){
-        var viewModel = new ViewModel();
-        viewModel.errormessage = ko.observable(true);
+        var errorInfowindow = new google.maps.InfoWindow();
+        errorInfowindow.marker = marker;
+        errorInfowindow.setContent("<div><p>Sorry something went wrong..</p></div>")
+        errorInfowindow.open(map, marker);
       }
     });
   }
@@ -174,7 +176,10 @@ function showListings(){
     markers[i].setMap(map);
     bounds.extend(markers[i].position);
   }
-  map.fitBounds(bounds);
+  window.onresize = function(){
+    map.fitBounds(bounds);
+  }
+  
 }
 
 function hideListings(){
@@ -194,7 +199,8 @@ function populateInfoWindow(marker, infowindow){
     infowindow.setContent(contentString);
     // change the color of marker
     marker.setIcon(highlightedIcon);
-    // open the infowindow
+    // adjust the center and open the infowindow
+    map.panTo(marker.position);
     infowindow.open(map, marker);
 
     infowindow.addListener('closeclick', function(){

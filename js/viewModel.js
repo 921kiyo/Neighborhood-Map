@@ -14,8 +14,6 @@ var ViewModel = function(){
     });
   });
 
-  self.errormessage = ko.observable(false);
-
   self.showListings = function(){
     showListings();
   };
