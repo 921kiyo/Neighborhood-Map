@@ -24,14 +24,8 @@ var ViewModel = function(){
     hideListings();
   };
 
-  self.enableHighlight = function(){
-    
-  };
-  self.disableHighlight = function(){
-    
-  };
-  self.selectPlace = function(){
-    populateInfoWindow();
+  self.selectPlace = function(marker){
+    populateInfoWindow(marker, largeInfowindow);
   };
 
 };

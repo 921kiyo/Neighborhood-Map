@@ -1,4 +1,8 @@
 var map;
+
+var largeInfowindow;
+var defaultIcon;
+var highlightedIcon;
 // all the markers of the locations will be in this array
 var markers = [];
 
@@ -64,11 +68,11 @@ function initMap(){
   }
   ];
 
-  var largeInfowindow = new google.maps.InfoWindow();
+  largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
 
-  var defaultIcon = makeMarkerIcon("0091ff");
-  var highlightedIcon = makeMarkerIcon("FFFF24");
+  defaultIcon = makeMarkerIcon("0091ff");
+  highlightedIcon = makeMarkerIcon("FFFF24");
 
   function hideMarkers(markers){
     for(var i = 0; i < markers.length; i++){
@@ -141,27 +145,6 @@ function initMap(){
     });
   }
 
-  function populateInfoWindow(marker, infowindow){
-    if(infowindow.marker != marker){
-      largeInfowindow.marker = marker;
-      var contentString = "<div class='infowindow'><h3>" + "<a href=" + marker.url + ">"                  + marker.title + "</a></h3>" + 
-                          "<img id='infowindow-image' src=" + marker.photo + " /><br/>"+ 
-                          "<p>Phone: " + marker.phone + "</p>" +   
-                          "<p>Address: " + marker.address + "</p>" + 
-                          "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
-      infowindow.setContent(contentString);
-      // change the color of marker
-      marker.setIcon(highlightedIcon);
-      console.log("run")
-      // open the infowindow
-      infowindow.open(map, marker);
-
-      infowindow.addListener("closeclick", function(){
-        marker.setIcon(defaultIcon);
-      });
-    }
-  }
-
   // open the list view menu
   var navMenu = document.getElementById("menu-button");
   navMenu.addEventListener("click", function(e){
@@ -199,3 +182,24 @@ function hideListings(){
     markers[i].setMap(null);
   }
 }
+
+function populateInfoWindow(marker, infowindow){
+  if(infowindow.marker != marker){
+    largeInfowindow.marker = marker;
+    var contentString = "<div class='infowindow'><h3>" + "<a href=" + marker.url + ">"                  + marker.title + "</a></h3>" + 
+                        "<img id='infowindow-image' src=" + marker.photo + " /><br/>"+ 
+                        "<p>Phone: " + marker.phone + "</p>" +   
+                        "<p>Address: " + marker.address + "</p>" + 
+                        "<p>" + "Rating: " + marker.rating + "/10, " + marker.likes + "</p>" + "</div>";
+    infowindow.setContent(contentString);
+    // change the color of marker
+    marker.setIcon(highlightedIcon);
+    // open the infowindow
+    infowindow.open(map, marker);
+
+    infowindow.addListener("closeclick", function(){
+      marker.setIcon(defaultIcon);
+    });
+  }
+}
+
